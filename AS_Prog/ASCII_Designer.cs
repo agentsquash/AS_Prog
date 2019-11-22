@@ -8,7 +8,7 @@ namespace AS_Prog
 	{
 		public static void Run()
 		{
-			string[] a = { "+" };
+			string[] a = { " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ","+"};
 			string[] b = { "+", "+" };
 			string[] c = { "+", "+", "-" };
 			string[] d = { "+", "+", "-", "-" };
@@ -19,8 +19,16 @@ namespace AS_Prog
 			string[] i = { "+", "+", "-", "-", "*", "*", "*", ".", "." };
 			string[] j = { "+", "+", "-", "-", "*", "*", "*", ".", ".", "." };
 
+			string ln1, ln2, ln3, ln4, ln5, ln6, ln7, ln8, ln9, ln10;
+			int shift = 0;
+
 			Console.Write("Enter your design: ");
-			string input = Console.ReadLine();
+			char[] input = Console.ReadLine().ToCharArray();
+			
+
+
+
+
 		}
 	}
 }
