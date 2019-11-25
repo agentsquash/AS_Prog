@@ -56,5 +56,26 @@ namespace AS_Prog
 				coinValue = 0;
 			}
 		}
+
+		public static readonly string[] coinStrings =
+		{ "£2: ", "£1: ", "50p: ", "20p: ", "10p: ", "5p: ", "2p: ", "1p: " };
+
+		public static int[] CoinCalc_v3(double value)
+		{
+			int[] coinTypes = { 200, 100, 50, 20, 10, 5, 2, 1 };
+			int[] coinsUsed = new int[coinTypes.Length];
+			int coinValue;
+
+			int decimalValue = Convert.ToInt32(value * 100);
+
+			for (int i = 0; i < coinTypes.Length; i++)
+			{
+				coinValue = decimalValue / coinTypes[i];
+				decimalValue = decimalValue % coinTypes[i];
+				coinsUsed[i] = coinValue;
+			}
+			return coinsUsed;
+	
+		}
 	}
 }
