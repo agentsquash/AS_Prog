@@ -9,7 +9,7 @@ namespace AS_Prog
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
-			ASCII_Designer.Run();
+			ASCII_GameOfLife.Run();
 		}
 	}
 }

@@ -42,7 +42,7 @@ namespace AS_Prog
 						lines[i] += " ";
 					}
 
-					for (int i = 0; i+shift < lines.Length; i++)
+					for (int i = 0; i+shift < lines.Length; i++) // Prints up to line shift.
 					{
 						lines[i+shift] += dict[value][i];
 					}
