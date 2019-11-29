@@ -29,13 +29,22 @@ namespace AS_Prog
 			{
 				gridInput = Iterate(gridInput);
 			}
+
+			for (int i = 0; i < length; i++)
+			{
+				for (int j = 0; j < width; j++)
+				{
+					Console.Write(string.Format("{0} ", gridInput[i, j]));
+				}
+				Console.Write(Environment.NewLine + Environment.NewLine);
+			}
 		}
 
 		public static char[,] Iterate(char[,] gridInput)
 		{
 			
 			char[,] returnArray = new char[gridInput.GetLength(0), gridInput.GetLength(1)];
-			char[] neighbours = new char[8];
+			char[] neighbours = new char[9];
 			int active = 0;
 			for (int x = 0; x < gridInput.GetLength(0); x++)
 			{
@@ -55,6 +64,7 @@ namespace AS_Prog
 						returnArray[x, y] = '.';
 					else
 						returnArray[x, y] = gridInput[x, y];
+					active = 0;
 				}
 			}
 			return returnArray;
@@ -62,16 +72,16 @@ namespace AS_Prog
 
 		public static char[] GetNeigbours(char[,] gridInput, int x, int y)
 		{
-			char[] neighbours = new char[8];
+			char[] neighbours = new char[9];
 			int xLeft = (x - 1);
 			if (xLeft < 0)
-				xLeft = gridInput.GetLength(0);
+				xLeft = gridInput.GetLength(0)-1;
 			int xRight = (x + 1);
 			if (xRight > gridInput.GetLength(0))
 				xRight = 0;
 			int yUp = (y - 1);
 			if (yUp < 0)
-				yUp = gridInput.GetLength(1);
+				yUp = gridInput.GetLength(1)-1;
 			int yDown = (y + 1);
 			if (yDown > gridInput.GetLength(0))
 				yDown = 0;
