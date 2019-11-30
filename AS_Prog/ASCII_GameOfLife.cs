@@ -24,6 +24,8 @@ namespace AS_Prog
 					gridInput[x, y] = lineInput[y];
 				}
 			}
+
+			Console.WriteLine(""); // Buffer between input and final.
 			
 			for (int i = 0; i < n; i++)
 			{
@@ -34,10 +36,11 @@ namespace AS_Prog
 			{
 				for (int j = 0; j < width; j++)
 				{
-					Console.Write(string.Format("{0} ", gridInput[i, j]));
+					Console.Write(string.Format("{0}", gridInput[i, j]));
 				}
-				Console.Write(Environment.NewLine + Environment.NewLine);
+				Console.Write(Environment.NewLine);
 			}
+
 		}
 
 		public static char[,] Iterate(char[,] gridInput)
@@ -48,9 +51,9 @@ namespace AS_Prog
 			int active = 0;
 			for (int x = 0; x < gridInput.GetLength(0); x++)
 			{
-				for (int y = 0; y < gridInput.GetLength(1); y++)
+				for (int y = 0; y < gridInput.GetLength(0); y++)
 				{
-					neighbours = GetNeigbours(gridInput, x, y);
+					neighbours = GetNeighbours(gridInput, x, y);
 					foreach (char character in neighbours)
 					{
 						if (character == '#')
@@ -70,20 +73,33 @@ namespace AS_Prog
 			return returnArray;
 		}
 
-		public static char[] GetNeigbours(char[,] gridInput, int x, int y)
+		public static char[] GetNeighbours(char[,] gridInput, int x, int y)
 		{
+			//char[] neighbours = new char[9];
+			//for (int i = -1; i < 2; i++)
+			//{
+			//	if ((x - i) < 0)
+			//		i = (gridInput.GetLength(0) - 1);
+			//	if ((x + 1 > gridInput.GetLength(0)))
+			//		i = 0;
+			//	for (int j = -1; j < 2; j++)
+			//	{
+			//		if (
+			//	}
+			//}
+
 			char[] neighbours = new char[9];
 			int xLeft = (x - 1);
 			if (xLeft < 0)
-				xLeft = gridInput.GetLength(0)-1;
+				xLeft = gridInput.GetLength(0) - 1;
 			int xRight = (x + 1);
-			if (xRight > gridInput.GetLength(0))
+			if (xRight > gridInput.GetLength(0) - 1)
 				xRight = 0;
 			int yUp = (y - 1);
 			if (yUp < 0)
-				yUp = gridInput.GetLength(1)-1;
+				yUp = gridInput.GetLength(1) - 1;
 			int yDown = (y + 1);
-			if (yDown > gridInput.GetLength(0))
+			if (yDown > gridInput.GetLength(0) - 1)
 				yDown = 0;
 
 			neighbours[0] = gridInput[xLeft, yUp];
