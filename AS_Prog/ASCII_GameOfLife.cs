@@ -6,8 +6,8 @@ namespace AS_Prog
 {
 	class ASCII_GameOfLife
 	{
-		const int Alive = 1;
-		const int Dead = 0;
+		const bool Alive = true;
+		const bool Dead = false;
 
 		public static void Run()
 		{
@@ -20,7 +20,7 @@ namespace AS_Prog
 			width = Convert.ToInt32(dataInput[2]);
 
 			// Width = Y, Length = X. Create Grid.
-			int[,] grid = InputGame(width, length);
+			bool[,] grid = InputGame(width, length);
 
 			// Iterate through the game.
 			for (int i = 0; i < iterations; i++)
@@ -31,21 +31,21 @@ namespace AS_Prog
 			// Print the final state of the grid.
 			PrintGrid(grid);
 		}
-		public static int[,] InputGame(int gridX, int gridY)
+		public static bool[,] InputGame(int gridX, int gridY)
 		{
-			int[,] grid = new int[gridY, gridX];
+			bool[,] grid = new bool[gridY, gridX];
 			for (int i = 0; i < gridY; i++)
 			{
 				char[] lineInput = Console.ReadLine().ToCharArray();
 				for (int j = 0; j < gridX; j++)
 				{
-					grid[i, j] = lineInput[j] == '#' ? Alive : Dead;
+					grid[i, j] = lineInput[j] == '#';
 				}
 			}
 			Console.WriteLine("");
 			return grid;
 		}
-		public static void PrintGrid(int[,] gridInput)
+		public static void PrintGrid(bool[,] gridInput)
 		{
 			for (int i = 0; i < gridInput.GetLength(0); i++)
 			{
@@ -60,7 +60,7 @@ namespace AS_Prog
 			}
 			Console.WriteLine("");
 		}
-		public static int LiveNeighbours(int[,] gridInput, int y, int x)
+		public static int LiveNeighbours(bool[,] gridInput, int y, int x)
 		{ 
 			int neighbours = 0;
 			int coordX, coordY;
@@ -81,17 +81,15 @@ namespace AS_Prog
 					else
 						coordX = x + j;
 					// Check if to increment variable.
-					if (gridInput[coordY, coordX] == Alive && ((coordX == x && coordY == y) == false))
-					{
+					if (gridInput[coordY, coordX] && !(coordX == x && coordY == y))
 						neighbours++;
-					}
 				}
 			}
 			return neighbours;
 		}
-		public static int[,] Iterate(int[,] gridInput)
+		public static bool[,] Iterate(bool[,] gridInput)
 		{
-			int[,] grid = new int[gridInput.GetLength(0), gridInput.GetLength(1)];
+			bool[,] grid = new bool[gridInput.GetLength(0), gridInput.GetLength(1)];
 			for (int i = 0; i < gridInput.GetLength(0); i++) // For Y.
 			{
 				for (int j = 0; j < gridInput.GetLength(1); j++) // For X.
@@ -102,7 +100,7 @@ namespace AS_Prog
 			}
 			return grid;
 		}
-		public static int CellState(int cell, int neighbours)
+		public static bool CellState(bool cell, int neighbours)
 		{
 			if (neighbours == 3 || cell == Alive && neighbours == 2)
 				return Alive;
