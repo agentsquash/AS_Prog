@@ -6,113 +6,107 @@ namespace AS_Prog
 {
 	class ASCII_GameOfLife
 	{
+		const int Alive = 1;
+		const int Dead = 0;
+
 		public static void Run()
 		{
+			int iterations, length, width;
+			// User inputs length + width to give bottom left coordinate (x = across, y = down)
+
 			string[] dataInput = Console.ReadLine().Split(" ");
-			int n, length, width;
-			n = Convert.ToInt32(dataInput[0]);
+			iterations = Convert.ToInt32(dataInput[0]);
 			length = Convert.ToInt32(dataInput[1]);
 			width = Convert.ToInt32(dataInput[2]);
-			char[] lineInput;
 
-			char[,] gridInput = new char[length,width]; // Creating a 2D array to store the grid.
-			for (int x = 0; x < length; x++)
+			// Width = Y, Length = X. Create Grid.
+			int[,] grid = InputGame(width, length);
+
+			// Iterate through the game.
+			for (int i = 0; i < iterations; i++)
 			{
-				lineInput = Console.ReadLine().ToCharArray(); // User inputs a line, converted to char array.
-				for (int y = 0; y < width; y++)
+				grid = Iterate(grid);
+			}
+
+			// Print the final state of the grid.
+			PrintGrid(grid);
+		}
+		public static int[,] InputGame(int gridX, int gridY)
+		{
+			int[,] grid = new int[gridY, gridX];
+			for (int i = 0; i < gridY; i++)
+			{
+				char[] lineInput = Console.ReadLine().ToCharArray();
+				for (int j = 0; j < gridX; j++)
 				{
-					gridInput[x, y] = lineInput[y];
+					grid[i, j] = lineInput[j] == '#' ? Alive : Dead;
 				}
 			}
-
-			Console.WriteLine(""); // Buffer between input and final.
-			
-			for (int i = 0; i < n; i++)
+			Console.WriteLine("");
+			return grid;
+		}
+		public static void PrintGrid(int[,] gridInput)
+		{
+			for (int i = 0; i < gridInput.GetLength(0); i++)
 			{
-				gridInput = Iterate(gridInput);
-			}
-
-			for (int i = 0; i < length; i++)
-			{
-				for (int j = 0; j < width; j++)
+				for (int j = 0; j < gridInput.GetLength(1); j++)
 				{
-					Console.Write(string.Format("{0}", gridInput[i, j]));
+					if (gridInput[i, j] == Alive)
+						Console.Write("#");
+					else
+						Console.Write(".");
 				}
 				Console.Write(Environment.NewLine);
 			}
-
+			Console.WriteLine("");
 		}
-
-		public static char[,] Iterate(char[,] gridInput)
-		{
-			
-			char[,] returnArray = new char[gridInput.GetLength(0), gridInput.GetLength(1)];
-			char[] neighbours = new char[9];
-			int active = 0;
-			for (int x = 0; x < gridInput.GetLength(0); x++)
+		public static int LiveNeighbours(int[,] gridInput, int y, int x)
+		{ 
+			int neighbours = 0;
+			int coordX, coordY;
+			for (int i = -1; i < 2; i++)
 			{
-				for (int y = 0; y < gridInput.GetLength(0); y++)
+				if (y + i == gridInput.GetLength(0))
+					coordY = 0;
+				else if (y + i == -1)
+					coordY = gridInput.GetLength(0) - 1;
+				else
+					coordY = y + i;
+				for (int j = -1; j < 2; j++)
 				{
-					neighbours = GetNeighbours(gridInput, x, y);
-					foreach (char character in neighbours)
-					{
-						if (character == '#')
-							active++;
-					}
-					if (active == 3 && gridInput[x, y] == '.')
-						returnArray[x, y] = '#';
-					else if (active < 2 && gridInput[x, y] == '#')
-						returnArray[x, y] = '.';
-					else if (active > 3 && gridInput[x, y] == '#')
-						returnArray[x, y] = '.';
+					if (x + j == gridInput.GetLength(1))
+						coordX = 0;
+					else if (x + j == -1)
+						coordX = gridInput.GetLength(1) - 1;
 					else
-						returnArray[x, y] = gridInput[x, y];
-					active = 0;
+						coordX = x + j;
+					// Check if to increment variable.
+					if (gridInput[coordY, coordX] == Alive && ((coordX == x && coordY == y) == false))
+					{
+						neighbours++;
+					}
 				}
 			}
-			return returnArray;
-		}
-
-		public static char[] GetNeighbours(char[,] gridInput, int x, int y)
-		{
-			//char[] neighbours = new char[9];
-			//for (int i = -1; i < 2; i++)
-			//{
-			//	if ((x - i) < 0)
-			//		i = (gridInput.GetLength(0) - 1);
-			//	if ((x + 1 > gridInput.GetLength(0)))
-			//		i = 0;
-			//	for (int j = -1; j < 2; j++)
-			//	{
-			//		if (
-			//	}
-			//}
-
-			char[] neighbours = new char[9];
-			int xLeft = (x - 1);
-			if (xLeft < 0)
-				xLeft = gridInput.GetLength(0) - 1;
-			int xRight = (x + 1);
-			if (xRight > gridInput.GetLength(0) - 1)
-				xRight = 0;
-			int yUp = (y - 1);
-			if (yUp < 0)
-				yUp = gridInput.GetLength(1) - 1;
-			int yDown = (y + 1);
-			if (yDown > gridInput.GetLength(0) - 1)
-				yDown = 0;
-
-			neighbours[0] = gridInput[xLeft, yUp];
-			neighbours[1] = gridInput[x, yUp];
-			neighbours[2] = gridInput[xRight, yUp];
-			neighbours[3] = gridInput[xLeft, y];
-			neighbours[4] = gridInput[x, y];
-			neighbours[5] = gridInput[xRight, y];
-			neighbours[6] = gridInput[xLeft, yDown];
-			neighbours[7] = gridInput[x, yDown];
-			neighbours[8] = gridInput[xRight, yDown];
-
 			return neighbours;
+		}
+		public static int[,] Iterate(int[,] gridInput)
+		{
+			int[,] grid = new int[gridInput.GetLength(0), gridInput.GetLength(1)];
+			for (int i = 0; i < gridInput.GetLength(0); i++) // For Y.
+			{
+				for (int j = 0; j < gridInput.GetLength(1); j++) // For X.
+				{
+					int neighbours = LiveNeighbours(gridInput, i, j);
+					grid[i, j] = CellState(gridInput[i, j], neighbours);
+				}
+			}
+			return grid;
+		}
+		public static int CellState(int cell, int neighbours)
+		{
+			if (neighbours == 3 || cell == Alive && neighbours == 2)
+				return Alive;
+			return Dead;
 		}
 	}
 }
