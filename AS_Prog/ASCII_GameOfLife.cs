@@ -51,10 +51,18 @@ namespace AS_Prog
 			{
 				for (int j = 0; j < gridInput.GetLength(1); j++)
 				{
-					if (gridInput[i, j] == Alive)
+					if (gridInput[i, j])
+					{
+						Console.ForegroundColor = ConsoleColor.Yellow;
 						Console.Write("#");
+					}
+					
 					else
+					{
+						Console.ForegroundColor = ConsoleColor.Red;
 						Console.Write(".");
+					}
+						
 				}
 				Console.Write(Environment.NewLine);
 			}

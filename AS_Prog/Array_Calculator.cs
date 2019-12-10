@@ -132,7 +132,7 @@ namespace AS_Prog
 			int num = 0;
 			for (int i = 0; i < nums.Length; i++)
 			{
-				num = num + nums[i];
+				num += nums[i];
 			}
 			double mean = num / nums.Length;
 			return mean;

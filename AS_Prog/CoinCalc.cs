@@ -71,7 +71,7 @@ namespace AS_Prog
 			for (int i = 0; i < coinTypes.Length; i++)
 			{
 				coinValue = decimalValue / coinTypes[i];
-				decimalValue = decimalValue % coinTypes[i];
+				decimalValue %= coinTypes[i];
 				coinsUsed[i] = coinValue;
 			}
 			return coinsUsed;

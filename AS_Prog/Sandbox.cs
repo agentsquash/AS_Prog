@@ -4,16 +4,72 @@ namespace AS_Prog
 {
 	class Sandbox
 	{
-
-		public static void numbers()
+		public static void MagicNumber()
 		{
-			int num1 = getNumber(1, 1);
-			int num2 = getNumber(1, 2);
-			int num3 = getNumber(1, 3);
+			Random Rand = new Random();
+			int RandNum = Rand.Next(1, 100);
+			int input;
+
+			Console.WriteLine("Welcome to the Magic Number guessing game!");
+			Console.WriteLine("See how many guesses you take until you guess the magic number!");
+
+			int guess_count = 1;
+			do
+			{
+				Console.Write("Enter your guess: ");
+				input = Convert.ToInt32(Console.ReadLine());
+
+				if (RandNum == input)
+					Console.WriteLine("Well done!");
+				else if (RandNum < input)
+				{
+					Console.WriteLine("Too high! Try again.");
+					guess_count++;
+				}
+				else
+				{
+					Console.WriteLine("Too low! Try again.");
+					guess_count++;
+				}
+			} while (input != RandNum);
+
+			Console.WriteLine("It took you {0} attempts to guess the magic number. GAME OVER.",guess_count);
+
+		}
+
+		public static void TimesTables()
+		{
+			Console.WriteLine("What times table would you like?");
+			int table = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Here is the times table for {0}", table);
+			for (int i = 1; i < 11; i++)
+				Console.WriteLine("{0} * {1} = {2}", i, table, i * table);
+			Console.WriteLine("End of times table.");
+
+		}
+
+		public static void StringManipulation()
+		{
+			//string[] WordArr = { "42", "43" }; //Immutable 
+			//string Words = "";
+			//char[] letters = Word.ToCharArray();
+			//letters[0] = Char.ToUpper(letters[0]);
+			//Word = letters.ToString();
+
+			//int Number = 42;
+			//string String = Convert.ToString(Number);
+		}
+
+
+		public static void Numbers()
+		{
+			int num1 = GetNumber(1, 1);
+			int num2 = GetNumber(1, 2);
+			int num3 = GetNumber(1, 3);
 
 			Console.WriteLine("{0}, {1}, {2}",num1,num2,num3);
 		}
-		public static int getNumber(int min, int max)
+		public static int GetNumber(int min, int max)
 		{
 			int num;
 			do
@@ -25,7 +81,7 @@ namespace AS_Prog
 			return num;
 		}
 
-		public static void whileIntro()
+		public static void WhileIntro()
 		{
 			//int num = Convert.ToInt32(Console.ReadLine());
 
@@ -49,7 +105,7 @@ namespace AS_Prog
 		public static void FizzBuzz()
 		{
 			int num = Convert.ToInt32(Console.ReadLine());
-			for (int i = 1; i < num; i++)
+			for (int i = 1; i == num; i++)
 			{
 				if (i % 3 == 0 && i % 5 == 0)
 					Console.WriteLine("FizzBuzz");

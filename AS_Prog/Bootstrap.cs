@@ -4,12 +4,17 @@ namespace AS_Prog
 {
 	class Bootstrap
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
-			ASCII_GameOfLife.Run();
+			while (true)
+			{
+				Sandbox.MagicNumber();
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.BackgroundColor = ConsoleColor.Black;
+			}
 		}
 	}
 }
