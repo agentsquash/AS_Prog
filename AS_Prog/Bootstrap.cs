@@ -9,12 +9,8 @@ namespace AS_Prog
 			Console.ForegroundColor = ConsoleColor.Green;
 			Console.BackgroundColor = ConsoleColor.Black;
 			Console.Clear();
-			while (true)
-			{
-				Sandbox.MagicNumber();
-				Console.ForegroundColor = ConsoleColor.Green;
-				Console.BackgroundColor = ConsoleColor.Black;
-			}
+
+			File_Handling.Question1();
 		}
 	}
 }

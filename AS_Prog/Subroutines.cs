@@ -31,7 +31,7 @@ namespace AS_Prog
 			for (int i = 0; i < Programs.Count; i++)
 			{
 				Greeting();
-				nextProg(Programs[i], Times[i]);
+				NextProg(Programs[i], Times[i]);
 			}
 		}
 
@@ -78,7 +78,7 @@ namespace AS_Prog
 			Console.WriteLine("========================================");
 		}
 
-		public static void nextProg(string Program, string Time)
+		public static void NextProg(string Program, string Time)
 		{
 			Console.WriteLine();
 			Console.WriteLine("{0} is on tomorrow at {1}", Program, Time);

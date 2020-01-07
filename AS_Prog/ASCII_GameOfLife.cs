@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace AS_Prog
 {
@@ -9,30 +10,57 @@ namespace AS_Prog
 		const bool Alive = true;
 		const bool Dead = false;
 
-		public static void Run()
+		const int Iterations = 0;
+		const int Length = 1;
+		const int Width = 2;
+
+		public static void Run_Random()
 		{
-			int iterations, length, width;
-			// User inputs length + width to give bottom left coordinate (x = across, y = down)
+			int[] values = new int[3];
+			values = UserInput();
 
-			string[] dataInput = Console.ReadLine().Split(" ");
-			iterations = Convert.ToInt32(dataInput[0]);
-			length = Convert.ToInt32(dataInput[1]);
-			width = Convert.ToInt32(dataInput[2]);
-
-			// Width = Y, Length = X. Create Grid.
-			bool[,] grid = InputGame(width, length);
+			// Randomly generate grid.
+			bool[,] grid = RandomGrid(values[Width], values[Length]);
 
 			// Iterate through the game.
-			for (int i = 0; i < iterations; i++)
+			for (int i = 0; i < values[Iterations]; i++)
 			{
 				grid = Iterate(grid);
+				PrintGrid(grid, i);
+				System.Threading.Thread.Sleep(1000);
 			}
 
-			// Print the final state of the grid.
-			PrintGrid(grid);
+		}
+
+		public static void Run()
+		{
+			int[] values = new int[3];
+			values = UserInput();
+
+			// Width = Y, Length = X. Create Grid.
+			bool[,] grid = InputGame(values[Width],values[Length]);
+
+			// Iterate through the game.
+			for (int i = 0; i < values[Iterations]; i++)
+			{
+				grid = Iterate(grid);
+				PrintGrid(grid, i);
+				System.Threading.Thread.Sleep(1000);
+			}
+		}
+
+		public static int[] UserInput()
+		{
+			int[] values = new int[3];
+			string[] dataInput = Console.ReadLine().Split(" ");
+			values[Iterations] = Convert.ToInt32(dataInput[0]);
+			values[Length] = Convert.ToInt32(dataInput[1]);
+			values[Width] = Convert.ToInt32(dataInput[2]);
+
+			return values;
 		}
 		public static bool[,] InputGame(int gridX, int gridY)
-		{
+		{ 
 			bool[,] grid = new bool[gridY, gridX];
 			for (int i = 0; i < gridY; i++)
 			{
@@ -45,8 +73,30 @@ namespace AS_Prog
 			Console.WriteLine("");
 			return grid;
 		}
-		public static void PrintGrid(bool[,] gridInput)
+
+		public static bool[,] RandomGrid(int gridX, int gridY)
 		{
+			Random Rand = new Random();
+			bool[,] grid = new bool[gridY, gridX];
+			for (int i = 0; i < gridY; i++)
+			{
+				for (int j = 0; j < gridX; j++)
+				{
+					int random = Rand.Next(0, 2);
+					if (random == 1)
+						grid[i, j] = true;
+					else
+						grid[i, j] = false;
+				}	
+			}
+			Console.WriteLine("");
+			return grid;
+		}
+
+		public static void PrintGrid(bool[,] gridInput, int iteration)
+		{
+			Console.ForegroundColor = ConsoleColor.DarkYellow;
+			Console.WriteLine("==================================== Iteration {0} ====================================",iteration+1);
 			for (int i = 0; i < gridInput.GetLength(0); i++)
 			{
 				for (int j = 0; j < gridInput.GetLength(1); j++)
@@ -67,6 +117,7 @@ namespace AS_Prog
 				Console.Write(Environment.NewLine);
 			}
 			Console.WriteLine("");
+			Console.ForegroundColor = ConsoleColor.Green;
 		}
 		public static int LiveNeighbours(bool[,] gridInput, int y, int x)
 		{ 
